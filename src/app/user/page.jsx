@@ -1,29 +1,37 @@
-"use client"
-import React from 'react'
-import { useState, useEffect } from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Page() {
-//https://jsonplaceholder.typicode.com/users/3
+  const [data, setdata] = useState(null);
 
- 
- 
-
-
-  useEffect( ()=>{
-    const getData = async() => {
-      const d = await axios.get("https://jsonplaceholder.typicode.com/users/3");
-      console.log(d);
-    }
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get("https://jsonplaceholder.typicode.com/users/3");
+        setdata(response.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
     getData();
+  }, []);
 
-  },[]);
-
-  
+  const { name, username, email } = data || {};
 
   return (
-    <div></div>
-  )
+    <div>
+     
+        <div>
+          <p>Name: {name}</p>
+          <p>Username: {username}</p>
+          <p>Email: {email}</p>
+        </div>
+      
+        
+     
+    </div>
+  );
 }
 
-export default Page
+export default Page;
